@@ -10,11 +10,19 @@ export default class Socket {
     })
   }
 
-  registerHandler = (onMessageReceived) => {
+  registerUserHandler = (onUserEvent) => {
+    this.socket.on('userEvent', onUserEvent);
+  }
+  
+  unregisterUserHandler = (onUserEvent) => {
+    this.socket.off('userEvent', onUserEvent);
+  }
+
+  registerMessageHandler = (onMessageReceived) => {
     this.socket.on('message', onMessageReceived);
   }
 
-  unregisterHandler = () => {
+  unregisterMessageHandler = () => {
     this.socket.off('message')
   }
 
@@ -24,5 +32,9 @@ export default class Socket {
 
   registerUser = (username, cb) => {
     this.socket.emit('join', username, cb);
+  }
+
+  requestUsers = () => {
+    this.socket.emit('requestUsers');
   }
 }

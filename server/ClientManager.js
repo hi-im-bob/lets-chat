@@ -11,6 +11,10 @@ module.exports = class ClientManager {
     return this.users.get(clientId)
   }
 
+  getUsernames() {
+    return Array.from(this.users.values())
+  }
+
   registerUser(clientId, username) {
       this.users.set(clientId, username);
   }

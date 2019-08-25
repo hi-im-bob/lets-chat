@@ -9,19 +9,15 @@ import './App.css';
 
 class App extends Component {
   state = {
-    user: null,
+    username: null,
     client: new Socket()
   }
 
   registerUser = (username, onError) => {
-    this.state.client.registerUser(username, (err, name) => {
+    this.state.client.registerUser(username, (err) => {
       if (err) onError(err)
-      else this.setState({ user: name });
+      else this.setState({ username });
     });
-  }
-
-  getUsers = () => {
-    
   }
 
   renderLogin = () => (
@@ -31,19 +27,24 @@ class App extends Component {
   renderChat = () => (
     <Grid container>
       <Grid item xs={12} sm={3} style={{ backgroundColor: '#eaeaea', height: '100vh' }}>
-        <Users />
+        <Users
+          registerHandler={this.state.client.registerUserHandler}
+          unregisterHandler={this.state.client.unregisterUserHandler}
+          requestUsers={this.state.client.requestUsers}
+        />
       </Grid>
       <Grid item xs={12} sm={9}>
         <Chatroom
             sendMessage={this.state.client.sendMessage}
-            registerHandler={this.state.client.registerHandler}
+            registerHandler={this.state.client.registerMessageHandler}
+            unregisterHandler={this.state.client.unregisterMessageHandler}
         />
       </Grid>
     </Grid>
   )
 
   render() {
-    const page = !this.state.user ?
+    const page = !this.state.username ?
       this.renderLogin() :
       this.renderChat();
 

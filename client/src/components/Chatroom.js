@@ -56,9 +56,10 @@ const MessageText = styled.div`
 export class Chatroom extends Component {
   state = {
     input: '',
-    chatHistory: []
+    chatHistory: [],
+    users: []
   }
-  
+
   onInput = (e) => this.setState({ input: e.target.value })
 
   onSendMessage = (e) => {
@@ -81,7 +82,7 @@ export class Chatroom extends Component {
   componentWillUnmount = () => {
     this.props.unregisterHandler();
   }
-  
+
   render() {
     return (
       <div>
