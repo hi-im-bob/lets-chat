@@ -18,7 +18,6 @@ export default class Socket {
     this.socket.off('message')
   }
 
-
   sendMessage = (message) => {
     this.socket.emit('message', message);
   }
