@@ -84,7 +84,7 @@ export class Chatroom extends Component {
   }
 
   componentDidUpdate = () => {
-    this.scrollChatToBottom()
+    if (this.props.authenticatedbob) this.scrollChatToBottom()
   }
 
   componentWillUnmount = () => {

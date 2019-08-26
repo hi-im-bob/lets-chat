@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Socket from './Socket'
 import 'react-toastify/dist/ReactToastify.css';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Chatroom from './components/Chatroom'
 import JoinChatroom from './components/JoinChatroom'
 import Users from './components/Users'
@@ -16,24 +17,32 @@ class App extends Component {
 
   registerUser = (username, onError) => {
     this.state.client.registerUser(username, (err) => {
-      if (err) {
-        onError(err)
-      } else {
-        console.log(`{app} setting username - ${username}`)
-        this.setState({ username });
-      }
+      if (err) onError(err)
+      else this.setState({ username });
     })
+  }
+
+  onLeaveChat = (e) => {
+    e.preventDefault();
+    this.state.client.leaveChatroom();
+    this.setState({ username: null });
   }
 
   renderLogin = () => (
     <JoinChatroom authenticated={!!this.state.username} register={this.registerUser} />
   )
 
-  renderChat = () => {
-    console.log("rendering chat")
-    return (
+  renderChat = () => (
     <Grid container>
       <Grid item xs={12} sm={3} style={{ backgroundColor: '#eaeaea', height: '100vh' }}>
+        <Button
+          size='small'
+          variant="outlined"
+          color="secondary"
+          onClick={this.onLeaveChat}
+        >
+          Leave Chatroom
+        </Button>
         <Users
           registerHandler={this.state.client.registerUserHandler}
           unregisterHandler={this.state.client.unregisterUserHandler}
@@ -49,7 +58,7 @@ class App extends Component {
         />
       </Grid>
     </Grid>
-  )}
+  )
 
   render() {
     return (

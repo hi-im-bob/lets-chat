@@ -30,6 +30,10 @@ export default class Socket {
     this.socket.emit('message', message);
   }
 
+  leaveChatroom = () => {
+    this.socket.emit('leave');
+  }
+
   registerUser = (username, cb) => {
     this.socket.emit('join', username, cb);
   }

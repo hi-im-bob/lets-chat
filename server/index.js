@@ -19,6 +19,13 @@ io.on('connection', (client) => {
     }
   });
 
+  client.on('leave', () => {
+    const username = clientManager.getUsernameByClientId(client.id);
+    clientManager.removeClient(client.id);
+    io.emit('userEvent', { users: clientManager.getUsernames() });
+    io.emit('message', { message: `${username} has left the chat.` });
+  });
+
   client.on('join', (username, cb) => {
     if (clientManager.usernameAvailable(username)) {
       clientManager.registerUser(client.id, username);
