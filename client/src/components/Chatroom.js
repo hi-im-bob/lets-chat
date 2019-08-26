@@ -28,10 +28,9 @@ const InputPanel = styled.div`
   padding-right: 40px;
   padding-left: 30px;
   align-self: left;
-  background-color: #dadada;
 `
 
-const Scrollable = styled.div`
+const MessagePanel = styled.div`
   height: 100%;
   overflow: auto;
 `
@@ -76,8 +75,16 @@ export class Chatroom extends Component {
     this.setState({ chatHistory: this.state.chatHistory.concat(entry) });
   }
 
+  scrollChatToBottom = () => {
+    this.messagesEnd.scrollIntoView();
+  }
+
   componentDidMount = () => {
     this.props.registerHandler(this.onMessageReceived);
+  }
+
+  componentDidUpdate = () => {
+    this.scrollChatToBottom()
   }
 
   componentWillUnmount = () => {
@@ -90,12 +97,12 @@ export class Chatroom extends Component {
     return (
       <div>
         <ChatPanel>
-          <Scrollable>
+          <MessagePanel>
             <List dense={true} aria-label='mailbox folders' style={{ paddingTop: 0 }}>
-              {this.state.chatHistory.map(({ username, message }) =>
+              {this.state.chatHistory.map(({ username, message }, i) =>
                 <React.Fragment>
                   <Divider />
-                  <ListItem>
+                  <ListItem key={i}>
                     <ListItemText 
                       primary={<MessageSender>{ username }</MessageSender>}
                       secondary={<MessageText>{ message }</MessageText>}
@@ -103,8 +110,11 @@ export class Chatroom extends Component {
                   </ListItem>
                 </React.Fragment>
               )}
+              <div style={{ float:"left", clear: "both" }}
+                ref={(el) => { this.messagesEnd = el; }}>
+              </div>
             </List>
-          </Scrollable>
+          </MessagePanel>
           <InputPanel>
             <TextField
               autoFocus
