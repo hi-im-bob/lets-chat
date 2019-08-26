@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,14 +13,14 @@ const usernameRegExp = new RegExp('^[A-Za-z0-9_-]{3,16}$');
 
 export class JoinChatroom extends Component {
   state = {
-    username: ''
+    input: ''
   }
 
-  onChange = (e) => this.setState({ [e.target.name]: e.target.value })
+  onChange = (e) => this.setState({ input: e.target.value })
 
   onSubmit = (e) => {
     e.preventDefault();
-    const username = this.state.username;
+    const username = this.state.input;
 
     if (this.validUsername(username)) {
       this.props.register(username, this.notifyError);
@@ -27,12 +28,14 @@ export class JoinChatroom extends Component {
       this.notifyError('Invalid username');
     }
   }
-
+  
   notifyError = (err) => toast.error(err, { position: toast.POSITION.TOP_LEFT });
 
   validUsername = (username) => username && usernameRegExp.test(username);
 
   render() {
+    if (this.props.authenticated) return <Redirect to={{ pathname: '/' }} />
+
     return (
       <div>
         <Dialog open={true} aria-labelledby="form-dialog-title">
@@ -46,8 +49,8 @@ export class JoinChatroom extends Component {
               <TextField
                 autoFocus
                 fullWidth
-                id="username"
-                name="username"
+                id="input"
+                name="input"
                 label="Username"
                 type="text"
                 onChange={this.onChange}

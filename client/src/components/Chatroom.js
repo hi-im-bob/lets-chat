@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import List from '@material-ui/core/List';
@@ -84,6 +85,8 @@ export class Chatroom extends Component {
   }
 
   render() {
+    if (!this.props.authenticated) return <Redirect to={{ pathname: '/join' }} />
+
     return (
       <div>
         <ChatPanel>

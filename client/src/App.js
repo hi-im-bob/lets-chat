@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Socket from './Socket'
 import 'react-toastify/dist/ReactToastify.css';
 import Grid from '@material-ui/core/Grid';
@@ -15,16 +16,22 @@ class App extends Component {
 
   registerUser = (username, onError) => {
     this.state.client.registerUser(username, (err) => {
-      if (err) onError(err)
-      else this.setState({ username });
-    });
+      if (err) {
+        onError(err)
+      } else {
+        console.log(`{app} setting username - ${username}`)
+        this.setState({ username });
+      }
+    })
   }
 
   renderLogin = () => (
-    <JoinChatroom register={this.registerUser} />
+    <JoinChatroom authenticated={!!this.state.username} register={this.registerUser} />
   )
 
-  renderChat = () => (
+  renderChat = () => {
+    console.log("rendering chat")
+    return (
     <Grid container>
       <Grid item xs={12} sm={3} style={{ backgroundColor: '#eaeaea', height: '100vh' }}>
         <Users
@@ -35,23 +42,23 @@ class App extends Component {
       </Grid>
       <Grid item xs={12} sm={9}>
         <Chatroom
+            authenticated={!!this.state.username}
             sendMessage={this.state.client.sendMessage}
             registerHandler={this.state.client.registerMessageHandler}
             unregisterHandler={this.state.client.unregisterMessageHandler}
         />
       </Grid>
     </Grid>
-  )
+  )}
 
   render() {
-    const page = !this.state.username ?
-      this.renderLogin() :
-      this.renderChat();
-
     return (
-      <div className="App">
-        {page}
-      </div>
+      <Router>
+        <div className="App">
+          <Route path="/" exact render={this.renderChat} />
+          <Route path="/join" exact render={this.renderLogin} />
+        </div>
+      </Router>
     );
   }
 }
