@@ -84,15 +84,19 @@ export class Chatroom extends Component {
   }
 
   componentDidUpdate = () => {
-    if (this.props.authenticated) this.scrollChatToBottom()
+    if (this.props.activeUsername) this.scrollChatToBottom()
   }
 
   componentWillUnmount = () => {
     this.props.unregisterHandler();
   }
 
+  highlightActiveUserMessage = (username) => {
+    if (username === this.props.activeUsername)
+      return { backgroundColor: '#e5ffec' }
+  }
   render() {
-    if (!this.props.authenticated) return <Redirect to={{ pathname: '/join' }} />
+    if (!this.props.activeUsername) return <Redirect to={{ pathname: '/join' }} />
 
     return (
       <div>
@@ -102,7 +106,10 @@ export class Chatroom extends Component {
               {this.state.chatHistory.map(({ username, message }, i) =>
                 <React.Fragment>
                   <Divider />
-                  <ListItem key={i}>
+                  <ListItem
+                    key={i}
+                    style={this.highlightActiveUserMessage(username)}
+                  >  
                     <ListItemText 
                       primary={<MessageSender>{ username }</MessageSender>}
                       secondary={<MessageText>{ message }</MessageText>}

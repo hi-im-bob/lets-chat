@@ -51,7 +51,7 @@ class App extends Component {
       </Grid>
       <Grid item xs={12} sm={9}>
         <Chatroom
-            authenticated={!!this.state.username}
+            activeUsername={this.state.username}
             sendMessage={this.state.client.sendMessage}
             registerHandler={this.state.client.registerMessageHandler}
             unregisterHandler={this.state.client.unregisterMessageHandler}
