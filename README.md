@@ -6,7 +6,7 @@
 
 From your terminal/shell/cmd run the command `docker-compose up` (if running the first time run `docker-compose up --build`).
                 
-## A MESSAGE TO UNIQUITI NETWORKS
+## A MESSAGE TO UBIQUITI NETWORKS
 
 I have deployed this on my digitalocean droplet, you can [check it out](http://206.189.52.181:3000).
 After 30 seconds of incativity, the user will be disconnected.
