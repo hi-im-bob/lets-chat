@@ -40,6 +40,7 @@ class App extends Component {
           variant="outlined"
           color="secondary"
           onClick={this.onLeaveChat}
+          style={{ marginTop: '20px' }}
         >
           Leave Chatroom
         </Button>
