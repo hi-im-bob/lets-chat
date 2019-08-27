@@ -8,6 +8,20 @@ services:
     command: node index.js
     ports:
       - '3001:3001'
+    networks:
+      - db_net
+    depends_on:
+      - mongo_service
+
+  mongo_service:
+    container_name: mongo_service
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    networks:
+      - db_net
+    ports:
+      - "27017:27017"
 
   client:
     container_name: client
@@ -16,3 +30,6 @@ services:
     command: npm start
     ports:
       - '3000:3000'
+
+networks:
+  db_net:

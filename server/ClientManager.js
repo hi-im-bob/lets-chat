@@ -1,4 +1,4 @@
-const TIMEOUT_MILLIS = 30000
+const timeoutInMillis = 30000
 
 module.exports = class ClientManager {
   constructor() {
@@ -24,13 +24,13 @@ module.exports = class ClientManager {
 
   resetAfkTimeout(clientId, onTimeout) {
     clearTimeout(this.users.get(clientId).afkTimeout);
-    this.users.get(clientId).afkTimeout = setTimeout(onTimeout, TIMEOUT_MILLIS);
+    this.users.get(clientId).afkTimeout = setTimeout(onTimeout, timeoutInMillis);
   }
 
   registerUser(clientId, username, onTimeout) {
     this.users.set(clientId, {
       username,
-      afkTimeout: setTimeout(onTimeout, TIMEOUT_MILLIS)
+      afkTimeout: setTimeout(onTimeout, timeoutInMillis)
     });
   }
 
