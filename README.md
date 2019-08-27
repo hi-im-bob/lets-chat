@@ -5,10 +5,6 @@
 ## Running the app
 
 From your terminal/shell/cmd run the command `docker-compose up` (if running the first time run `docker-compose up --build`).
-
-## Prerequisites
-
-* Docker and docker-compose
                 
 ## A MESSAGE TO UNIQUITI NETWORKS
 
