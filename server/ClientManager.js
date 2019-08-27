@@ -35,6 +35,7 @@ module.exports = class ClientManager {
   }
 
   removeClient(clientId) {
+    clearTimeout(this.users.get(clientId).afkTimeout);
     this.users.delete(clientId)
   }
 }
