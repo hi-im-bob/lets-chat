@@ -19,6 +19,7 @@ I know this doesn't look too good.
 * ./server/index.js looks like a mess (no KISS or DRY)
 * MongoDB was a quick and dirty integration
 * The front-end scales poorly
+* Single master git branch (no time for gitflow)
 
 But hey, a week ago I didn't even how to use React at all and this is the first time I use WebSockets,
 so that should count for something, right?
