@@ -6,6 +6,7 @@ docker push hiimbob/chatroom-client
 docker build -t hiimbob/chatroom-server ./server
 docker push hiimbob/chatroom-server
 
+# NEED TO ADD MONGODB
 
 # run on server:
 

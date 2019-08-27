@@ -1,18 +1,6 @@
 version: "3.7"
 services:
 
-  server:
-    container_name: server
-    build:
-      context: ./server
-    command: node index.js
-    ports:
-      - '3001:3001'
-    networks:
-      - db_net
-    depends_on:
-      - mongo_service
-
   mongo_service:
     container_name: mongo_service
     image: mongo
@@ -30,6 +18,19 @@ services:
     command: npm start
     ports:
       - '3000:3000'
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+    command: sh -c "sleep 10 && node index.js"
+    ports:
+      - '3001:3001'
+    networks:
+      - db_net
+    depends_on:
+      - client
+      - mongo_service
 
 networks:
   db_net:
