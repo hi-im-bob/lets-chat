@@ -12,7 +12,7 @@ import './App.css';
 class App extends Component {
   state = {
     username: null,
-    client: new Socket()
+    client: new Socket((message) => this.setState({ username: null }))
   }
 
   registerUser = (username, onError) => {

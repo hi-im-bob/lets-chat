@@ -28,7 +28,15 @@ io.on('connection', (client) => {
 
   client.on('join', (username, cb) => {
     if (clientManager.usernameAvailable(username)) {
-      clientManager.registerUser(client.id, username);
+      clientManager.registerUser(client.id, username, () => {
+        const username = clientManager.getUsernameByClientId(client.id);
+        console.log(`${username} removed due to inactivity`)
+        clientManager.removeClient(client.id);
+        
+        client.emit('removed', 'Removed due to inactivity.');
+        client.broadcast.emit('userEvent', { users: clientManager.getUsernames() });
+        client.broadcast.emit('message', { message: `${username} disconnected due to incativity.` });    
+      });
       
       io.emit('message', { message: `${username} has joined the chat!` });
       client.broadcast.emit('userEvent', { users: clientManager.getUsernames() });
@@ -45,6 +53,15 @@ io.on('connection', (client) => {
   client.on('message', (message) => {
     const username = clientManager.getUsernameByClientId(client.id);
     io.emit('message', { username, message });
+    
+    clientManager.resetAfkTimeout(client.id, () => {
+      console.log(`${username} removed due to inactivity`)
+      clientManager.removeClient(client.id);
+      
+      client.emit('removed', 'Removed due to inactivity.');
+      client.broadcast.emit('userEvent', { users: clientManager.getUsernames() });
+      client.broadcast.emit('message', { message: `${username} disconnected due to incativity.` });    
+    });
   });
 });
 

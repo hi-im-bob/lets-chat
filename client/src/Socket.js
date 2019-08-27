@@ -1,13 +1,15 @@
 import io from 'socket.io-client'
 
 export default class Socket {
-  constructor() {
+  constructor(onRemoved) {
     this.socket = io.connect('http://localhost:3001')
 
-    this.socket.on('error', function (err) {
-      console.log('received socket error:')
-      console.log(err)
-    })
+    this.socket.on('error', (err) => {
+      console.log('received socket error:');
+      console.log(err);
+    });
+    
+    this.socket.on('removed', onRemoved);
   }
 
   registerUserHandler = (onUserEvent) => {
